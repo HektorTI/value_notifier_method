@@ -10,5 +10,11 @@ class Controller extends ChangeNotifier {
 
   void seIson() {
     isOn = !isOn;
+    //   if (isOn == true) {
+    //     isOn = false;
+    //   } else {
+    //     isOn = true;
+    //   }
+    // }
   }
 }
