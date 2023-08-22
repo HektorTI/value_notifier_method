@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'controller.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -10,16 +12,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final Controller _controller = Controller();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+  @override
+  void initState() {
+    super.initState();
+
+    _controller.addListener(() {
+      setState(() {});
     });
+
+    _controller.addListener(() => _update);
+  }
+
+  void _update() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Recriando Tela ${_controller.counter}');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -32,15 +44,36 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            // AnimatedBuilder(
+            //   animation: _controller.counter,
+            //   builder: (context, child) {
+            //     return Text(
+            //       '${_controller.counter}',
+            //       style: Theme.of(context).textTheme.headlineMedium,
+            //     );
+            //   },
+            // ),
+            ValueListenableBuilder(
+                valueListenable: _controller.counter,
+                builder: (context, value, child) {
+                  return Text(
+                    '$value',
+                    // '${_controller.counter}',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  );
+                }),
+
+            Switch(
+                value: _controller.isOn,
+                onChanged: (value) {
+                  _controller.seIson();
+                  setState(() {});
+                }),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _controller.incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
