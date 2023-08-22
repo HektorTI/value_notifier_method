@@ -14,17 +14,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final Controller _controller = Controller();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   _controller.addListener(() {
-  //     setState(() {});
-  //   });
-
-  //   _controller.addListener(() => _update);
-  // }
-
   void updateBySetState() {
     _controller.counter.value++;
     setState(() {});
