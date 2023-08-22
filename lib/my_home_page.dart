@@ -14,18 +14,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final Controller _controller = Controller();
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _controller.addListener(() {
-      setState(() {});
-    });
+  //   _controller.addListener(() {
+  //     setState(() {});
+  //   });
 
-    _controller.addListener(() => _update);
-  }
+  //   _controller.addListener(() => _update);
+  // }
 
-  void _update() {
+  void updateBySetState() {
+    _controller.counter.value++;
     setState(() {});
   }
 
@@ -54,14 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
             //   },
             // ),
             ValueListenableBuilder(
-                valueListenable: _controller.counter,
-                builder: (context, value, child) {
-                  return Text(
-                    '$value',
-                    // '${_controller.counter}',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  );
-                }),
+              valueListenable: _controller.counter,
+              builder: (context, value, child) {
+                return Text(
+                  '$value',
+                  // '${_controller.counter}',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                );
+              },
+            ),
 
             Switch(
                 value: _controller.isOn,
@@ -73,7 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _controller.incrementCounter,
+        onPressed:
+            _controller.isOn ? _controller.incrementCounter : updateBySetState,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
